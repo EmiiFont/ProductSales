@@ -1,10 +1,11 @@
 using System.Collections.Generic;
-using MakeupSales.Models;
+using ProductSales.Models;
 
 namespace ProductSales.Dao
 {
-    public class IPageRepository
+    public interface IPageRepository
     {
-        
+        IEnumerable<Page> GetAllPages();
+        void AddPage(Page newPage);
     }
 }

@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using MongoDB.Bson;
 
-namespace MakeupSales.Models
+namespace ProductSales.Models
 {
     public class Product 
     {

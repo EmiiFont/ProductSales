@@ -1,5 +1,5 @@
 using MakeupSales.Hubs;
-using MakeupSales.Models;
+using ProductSales.Models;
 using Microsoft.AspNetCore.SignalR;
 using MongoDB.Bson;
 using MongoDB.Driver;

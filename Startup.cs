@@ -49,7 +49,6 @@ namespace ProductSales
 	        services.AddTransient<IProductRepository>(p => {
                 return new ProductRepository(options.Value.HostName, options.Value.DatabaseName);
             });
-
             services.AddTransient<IPageRepository>(p => {
                 return new PageRepository(options.Value.HostName, options.Value.DatabaseName);
             });

@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using MakeupSales.Models;
-using MakeupSales.Dao;
+using ProductSales.Models;
+using ProductSales.Dao;
 using Microsoft.Extensions.Logging;
 
 namespace MakeupSales.Controllers
@@ -12,7 +12,7 @@ namespace MakeupSales.Controllers
     [Route("api/[controller]")]
     public class ProductController : Controller
     {
-        IProductRepository _productRepo;
+          IProductRepository _productRepo;
           ILogger<ProductController> _logger;
         public ProductController(IProductRepository productRepository, ILogger<ProductController> logger)
         {

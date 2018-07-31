@@ -1,11 +1,8 @@
-using System;
 using System.Collections.Generic;
-using MakeupSales.Models;
-using MongoDB.Driver;
-using ProductSales.Dao;
 using ProductSales.Models;
+using MongoDB.Driver;
 
-namespace MakeupSales.Dao
+namespace ProductSales.Dao
 {
     public class PageRepository : IPageRepository
     {
@@ -22,6 +19,13 @@ namespace MakeupSales.Dao
         {
             var pagesList = _mongoDatabase.GetCollection<Page>("Pages");
             return pagesList.AsQueryable().ToList();
+        }
+
+        public void AddPage(Page newPage)
+        {
+            var items = _mongoDatabase.GetCollection<Page>("Pages");
+
+            var result = items.InsertOneAsync(newPage);
         }
     }
 }

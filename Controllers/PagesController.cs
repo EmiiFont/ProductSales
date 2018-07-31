@@ -9,20 +9,34 @@ using Microsoft.Extensions.Logging;
 
 namespace ProductSales.Controllers
 {
+    [Produces("application/json")]
     [Route("api/[controller]")]
-    public class PagesController : Controller
+    [ApiController]
+    public class PagesController : ControllerBase
     {
         ILogger<PagesController> _logger;
-        public PagesController(  ILogger<PagesController> logger)
+        IPageRepository _pageRepository;
+        public PagesController(ILogger<PagesController> logger, IPageRepository pageRepository)
         {
             _logger = logger;
+            _pageRepository = pageRepository;
         }
 
         [HttpGet("[action]")]
-        public List<Page> Get()
+        public IEnumerable<Page> Get()
         {
+            var pages = _pageRepository.GetAllPages();
 
-            return new List<Page>();
+            return pages;
+        }
+
+        [HttpPost]
+        [ProducesResponseType(400)]
+        public Page CreateAsync(Page newPage)
+        {
+            _pageRepository.AddPage(newPage);
+
+            return newPage;
         }
     }
 }

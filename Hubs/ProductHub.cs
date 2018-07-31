@@ -1,5 +1,5 @@
 
-using MakeupSales.Models;
+using ProductSales.Models;
 using Microsoft.AspNetCore.SignalR;
 
 namespace MakeupSales.Hubs

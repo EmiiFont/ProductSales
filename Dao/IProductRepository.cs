@@ -1,7 +1,7 @@
 using System.Collections.Generic;
-using MakeupSales.Models;
+using ProductSales.Models;
 
-namespace MakeupSales.Dao
+namespace ProductSales.Dao
 {
     public interface IProductRepository
     {

@@ -1,7 +1,8 @@
 using System;
 using System.Collections.Generic;
-using MakeupSales.Models;
 using MongoDB.Driver;
+using ProductSales.Dao;
+using ProductSales.Models;
 
 namespace MakeupSales.Dao
 {
