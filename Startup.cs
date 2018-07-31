@@ -9,6 +9,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using ProductSales.Dao;
 using Serilog;
 
 namespace ProductSales
@@ -47,6 +48,10 @@ namespace ProductSales
             
 	        services.AddTransient<IProductRepository>(p => {
                 return new ProductRepository(options.Value.HostName, options.Value.DatabaseName);
+            });
+
+            services.AddTransient<IPageRepository>(p => {
+                return new PageRepository(options.Value.HostName, options.Value.DatabaseName);
             });
 
             // services.AddCors(o => o.AddPolicy("CorsPolicy", builder =>
@@ -113,5 +118,6 @@ namespace ProductSales
                 }
             });
         }
+        
     }
 }
