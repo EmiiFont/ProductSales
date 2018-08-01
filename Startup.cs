@@ -16,11 +16,23 @@ namespace ProductSales
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration)
+        public Startup(IConfiguration configuration, IHostingEnvironment env)
         {
-            Configuration = configuration;
+            var builder = new ConfigurationBuilder()
+                    .SetBasePath(env.ContentRootPath)
+                    .AddJsonFile("appsettings.json", 
+                                optional: false, 
+                                reloadOnChange: true)
+                    .AddEnvironmentVariables();
 
-             Log.Logger  = new LoggerConfiguration()
+            if (env.IsDevelopment())
+            {
+                builder.AddUserSecrets<Startup>();
+            }
+
+            Configuration = builder.Build();
+            
+            Log.Logger  = new LoggerConfiguration()
                   .WriteTo.Console()
                  // Insert Sentry DSN here
                  .WriteTo.Sentry(configuration["SentryDsn"])
@@ -38,7 +50,7 @@ namespace ProductSales
         {
             services.AddMvc();
 
-             services.Configure<SentryOptions>(Configuration);
+            services.Configure<SentryOptions>(Configuration);
             services.AddLogging(loggingBuilder => loggingBuilder.AddSerilog(dispose: true));
 
             var provider = services.BuildServiceProvider();

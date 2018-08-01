@@ -1,7 +1,9 @@
 using MongoDB.Bson;
+using MongoDB.Bson.Serialization.Attributes;
 
 namespace ProductSales.Models
 {
+	 [BsonIgnoreExtraElements]
     public class Page
 	{
         public ObjectId Id { get; set; }

@@ -13,6 +13,7 @@ namespace MakeupSales.Dao
         public ProductRepository(string connectionString, string dbName) 
         {
              var client = new MongoClient(connectionString);
+             
 
             _mongoDatabase = client.GetDatabase(dbName);
         }

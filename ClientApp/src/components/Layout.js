@@ -14,7 +14,6 @@ export class Layout extends Component {
           </Col>
           <Col sm={9}>
             {this.props.children}
-            {console.log(this.props.children)}
           </Col>
         </Row>
       </Grid>

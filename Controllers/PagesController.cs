@@ -32,7 +32,7 @@ namespace ProductSales.Controllers
 
         [HttpPost]
         [ProducesResponseType(400)]
-        public Page CreateAsync(Page newPage)
+        public Page CreateAsync([FromBody]Page newPage)
         {
             _pageRepository.AddPage(newPage);
 
