@@ -23,7 +23,8 @@ namespace MakeupSales.Dao
         {
             var productList = _mongoDatabase.GetCollection<Product>("Products");
 
-            return productList.AsQueryable().ToList();
+            return productList.Find(FilterDefinition<Product>.Empty).Limit(10).Sort("{UpdateDate: -1}")
+.ToList();
         }
     }
 }

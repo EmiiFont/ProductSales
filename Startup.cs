@@ -31,7 +31,7 @@ namespace ProductSales
             }
 
             Configuration = builder.Build();
-            
+            var dd = Configuration["SentryDsn"];
             Log.Logger  = new LoggerConfiguration()
                   .WriteTo.Console()
                  // Insert Sentry DSN here
