@@ -18,6 +18,7 @@ namespace ProductSales.Models
 		public string ProductImageSelector { get; set; }
 		public string ProductUrlLocation { get; set; }
 		public string ExcludeSelector { get; set; }
-
+		public bool IsJson { get; set; }
+		public bool Enabled { get; set; }
 	}
 }

@@ -5,6 +5,7 @@ import { Home } from './components/Home';
 import { FetchData } from './components/FetchData';
 import { Counter } from './components/Counter';
 import { PageForm } from './components/Page';
+import { PageList } from './components/PageList';
 
 export default class App extends Component {
   displayName = App.name
@@ -16,6 +17,7 @@ export default class App extends Component {
         <Route path='/counter' component={Counter} />
         <Route path='/fetchdata' component={FetchData} />
         <Route path='/page' component={PageForm} />
+        <Route path='/pagelist' component={PageList} />
       </Layout>
     );
   }

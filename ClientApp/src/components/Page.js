@@ -18,6 +18,7 @@ export class PageForm extends React.Component {
         ProductImageSelector:'',
         ProductUrlLocation:'',
         ExcludeSelector:'',
+        Enabled: true,
         isFormValid: false,
         };
   
@@ -55,16 +56,9 @@ export class PageForm extends React.Component {
     }
     
     handleChangeSalesUrl(id, event){
-      console.log(this.state.SalesUrls);
       let urls = [...this.state.SalesUrls];
       urls[id] = event.target.value;
       this.setState({ SalesUrls: urls });
-      // const newShareholders = this.state.SalesUrls.map((saleurl, sidx) => {
-      //   if (id !== sidx) return saleurl;
-      //   return { ...saleurl, name: "event.target.value" };
-      // });
-      
-     // this.setState({ SalesUrls: newShareholders });
     }
 
     handleAddSalesUrl = () => {
@@ -184,6 +178,15 @@ export class PageForm extends React.Component {
            </FormControl>
            </FormGroup>
            
+
+           <FormGroup>
+           <ControlLabel>
+           Enabled:
+           </ControlLabel>
+           <FormControl type="checkbox" name="Enabled" value={this.state.Enabled} onChange={this.handleChange}>
+           </FormControl>
+           </FormGroup>
+
            <Button bsStyle="primary" type="submit">Save</Button>
           
         </form>
