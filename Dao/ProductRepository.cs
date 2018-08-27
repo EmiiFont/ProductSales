@@ -25,8 +25,18 @@ namespace MakeupSales.Dao
             var productList = _mongoDatabase.GetCollection<Product>("Products");
             var sortValue = orderDirection == "asc" ? 1 : -1;
             var mongosortp = "{" + orderByColumn + ":" + sortValue + "}";
-            
-            return productList.Find(FilterDefinition<Product>.Empty).Skip(page * pageSize).Limit(pageSize).Sort(mongosortp).ToList();
+
+            FilterDefinition<Product> filter = FilterDefinition<Product>.Empty;
+
+            if(companyEqual.Count > 0){
+              filter = Builders<Product>.Filter
+              .Where(e => companyEqual.Contains(e.Company));
+            }
+            if(productTypeEqual.Count > 0){
+              filter = filter & Builders<Product>.Filter.Where(e => productTypeEqual.Contains(e.ProductType));
+            }
+
+            return productList.Find(filter).Skip(page * pageSize).Limit(pageSize).Sort(mongosortp).ToList();
         }
     }
 }
