@@ -18,13 +18,15 @@ namespace MakeupSales.Dao
             _mongoDatabase = client.GetDatabase(dbName);
         }
 
-        public IEnumerable<Product> GetAllProducts(string orderByColumn = "Price",
-         string orderDirection = "asc")
+        public IEnumerable<Product> GetAllProducts(List<string> companyEqual, List<string> productTypeEqual,
+        List<string> productCategoryEqual, int page = 1, int pageSize = 10,
+         string orderByColumn = "Price", string orderDirection = "asc")
         {
             var productList = _mongoDatabase.GetCollection<Product>("Products");
-
-            return productList.Find(FilterDefinition<Product>.Empty).Limit(10).Sort("{UpdateDate: -1}")
-.ToList();
+            var sortValue = orderDirection == "asc" ? 1 : -1;
+            var mongosortp = "{" + orderByColumn + ":" + sortValue + "}";
+            
+            return productList.Find(FilterDefinition<Product>.Empty).Skip(page * pageSize).Limit(pageSize).Sort(mongosortp).ToList();
         }
     }
 }

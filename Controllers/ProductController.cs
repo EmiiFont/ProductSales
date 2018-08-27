@@ -23,7 +23,7 @@ namespace MakeupSales.Controllers
         [HttpGet("[action]")]
         public IEnumerable<Product> Sales()
         {
-            var listOfProducts = _productRepo.GetAllProducts();
+            var listOfProducts = _productRepo.GetAllProducts(new List<string>(), new List<string>(), new List<string>());
             return listOfProducts;
         }
     }
