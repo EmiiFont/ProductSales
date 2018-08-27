@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using MongoDB.Driver;
 using ProductSales.Dao;
 using ProductSales.Models;
@@ -32,8 +33,13 @@ namespace MakeupSales.Dao
               filter = Builders<Product>.Filter
               .Where(e => companyEqual.Contains(e.Company));
             }
+
             if(productTypeEqual.Count > 0){
               filter = filter & Builders<Product>.Filter.Where(e => productTypeEqual.Contains(e.ProductType));
+            }
+
+            if(productCategoryEqual.Count > 0){
+              filter = filter & Builders<Product>.Filter.Where(e => e.Categories.All(b => productCategoryEqual.Contains(b.Name)));
             }
 
             return productList.Find(filter).Skip(page * pageSize).Limit(pageSize).Sort(mongosortp).ToList();
