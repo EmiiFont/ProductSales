@@ -21,9 +21,12 @@ namespace MakeupSales.Controllers
         }
 
         [HttpGet("[action]")]
-        public IEnumerable<Product> Sales()
+        public IEnumerable<Product> Sales(ProductFilter filterParams)
         {
-            var listOfProducts = _productRepo.GetAllProducts(new List<string>(), new List<string>(), new List<string>());
+            var listOfProducts = _productRepo.GetAllProducts(filterParams.Companies, 
+            filterParams.ProductTypes, filterParams.ProductCategories, filterParams.Page, 
+            filterParams.PageSize, filterParams.OrderByColumn, filterParams.OrderDirection);
+            
             return listOfProducts;
         }
     }
