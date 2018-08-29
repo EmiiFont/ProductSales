@@ -7,13 +7,21 @@ export class FetchData extends Component {
     super(props);
     this.state = { products: [], loading: true };
 
-    fetch('api/Product/Sales')
-      .then(response => response.json())
-      .then(data => {
-        this.setState({ products: data, loading: false });
-      });
+    this.filterProductsTable();
   }
 
+  filterProductsTable(){
+    var filterObj =  {page: 1, pageSize: 5, orderByColumn: 'UpdateDate', OrderDirection: 'desc'}
+    var queryParams= buildURLQuery(filterObj);
+    
+    fetch('api/Product/Sales?' + queryParams)
+    .then(response => response.json())
+    .then(data => {
+      this.setState({ products: data, loading: false });
+    });
+
+  }
+   
   static renderForecastsTable(products) {
     return (
       <table className='table'>
@@ -51,3 +59,10 @@ export class FetchData extends Component {
     );
   }
 }
+
+function buildURLQuery(obj){
+return Object.entries(obj)
+  .map(pair => pair.map(encodeURIComponent).join('='))
+  .join('&');
+}
+
