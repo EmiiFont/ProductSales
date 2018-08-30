@@ -4,9 +4,9 @@ namespace ProductSales.Models
 {
     public class ProductFilter : FilterCommon
     {
-        public List<string> Companies { get; set; } = new List<string>();
-        public List<string> ProductTypes { get; set; } = new List<string>();
-        public List<string> ProductCategories { get; set; } = new List<string>();
+        public string Companies { get; set; }
+        public string ProductTypes { get; set; } 
+        public string ProductCategories { get; set; }
     }
 
     public class FilterCommon

@@ -38,8 +38,15 @@ namespace MakeupSales.Dao
               filter = filter & Builders<Product>.Filter.Where(e => productTypeEqual.Contains(e.ProductType));
             }
 
-            if(productCategoryEqual.Count > 0){
-              filter = filter & Builders<Product>.Filter.Where(e => e.Categories.All(b => productCategoryEqual.Contains(b.Name)));
+            if(productCategoryEqual.Count > 0)
+            {
+             var categoryFilter = FilterDefinition<Product>.Empty;
+             
+             foreach (var category in productCategoryEqual)
+             {
+                 categoryFilter = categoryFilter | Builders<Product>.Filter.Where(e => e.Categories.Any(cb => cb.Name == category));
+             }
+              filter = filter & categoryFilter;
             }
 
             return productList.Find(filter).Skip(page * pageSize).Limit(pageSize).Sort(mongosortp).ToList();

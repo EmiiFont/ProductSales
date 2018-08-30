@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import {ProductFilter} from './ProductFilter';
 
 export class FetchData extends Component {
   displayName = FetchData.name
@@ -8,12 +9,17 @@ export class FetchData extends Component {
     this.state = { products: [], loading: true };
 
     this.filterProductsTable();
+    this.filterProductsTable = this.filterProductsTable.bind(this);
   }
 
-  filterProductsTable(){
-    var filterObj =  {page: 1, pageSize: 5, orderByColumn: 'UpdateDate', OrderDirection: 'desc'}
+  filterProductsTable(obj){
+    if(obj === undefined || obj === null){
+      obj = {page: 1, pageSize: 10, orderByColumn: 'UpdateDate', OrderDirection: 'desc'};
+    }
+    var filterObj = obj;
     var queryParams= buildURLQuery(filterObj);
     
+    console.log(queryParams);
     fetch('api/Product/Sales?' + queryParams)
     .then(response => response.json())
     .then(data => {
@@ -53,6 +59,7 @@ export class FetchData extends Component {
     return (
       <div>
         <h1>Product Sales</h1>
+        <ProductFilter getFilterSelection={this.filterProductsTable}></ProductFilter>
         <p>This component demonstrates fetching data from the server.</p>
         {contents}
       </div>
