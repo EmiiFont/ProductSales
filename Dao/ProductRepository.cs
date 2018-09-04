@@ -40,11 +40,18 @@ namespace MakeupSales.Dao
 
             if(productCategoryEqual.Count > 0)
             {
-             var categoryFilter = FilterDefinition<Product>.Empty;
+             FilterDefinition<Product> categoryFilter = null;
              
              foreach (var category in productCategoryEqual)
              {
-                 categoryFilter = categoryFilter | Builders<Product>.Filter.Where(e => e.Categories.Any(cb => cb.Name == category));
+                 if(categoryFilter == null)
+                 {
+                   categoryFilter = Builders<Product>.Filter.ElemMatch(r => r.Categories, b=> b.Name == category);
+                 }
+                 else
+                 {
+                   categoryFilter = categoryFilter | Builders<Product>.Filter.ElemMatch(r => r.Categories, b=> b.Name == category);
+                 }
              }
               filter = filter & categoryFilter;
             }

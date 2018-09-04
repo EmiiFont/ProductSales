@@ -12,6 +12,7 @@ export class ProductFilter extends React.Component {
         this.state = {
             categories: ['Lipsticks', 'Face Make up', 'Eyes Make up'],
             productTypes: ['lip', 'cleansing', 'lipstick', 'palette', 'make up', 'shadow', 'countour', 'foundation', 'lash', 'lashes', 'mascara', 'liner', 'highlighter'],
+            companies: ['urbandecay', 'nyxcosmetics', 'tartecosmetics', 'makeupgeek', 'colourpop', 'toofaced'],
             selectedCheckboxes: new Set()
         }
 
@@ -21,7 +22,8 @@ export class ProductFilter extends React.Component {
     handleFormSubmit = formSubmitEvent => {
         formSubmitEvent.preventDefault();
         
-        this.props.getFilterSelection({page: 1, pageSize: 10, orderByColumn: 'Price', OrderDirection: 'desc', ProductCategories: [...this.state.selectedCheckboxes]});
+        this.props.getFilterSelection({page: 1, pageSize: 10, orderByColumn: 'Price', OrderDirection: 'desc', 
+        Companies: [...this.state.selectedCheckboxes]});
         // for (const checkbox of this.state.selectedCheckboxes) {
         //   console.log(checkbox, 'is selected.');
         // }
@@ -63,7 +65,7 @@ export class ProductFilter extends React.Component {
     )
 
     createCheckBoxList = () =>(
-        this.state.categories.map(this.createCheckbox)
+        this.state.companies.map(this.createCheckbox)
     )
 
     render(){
