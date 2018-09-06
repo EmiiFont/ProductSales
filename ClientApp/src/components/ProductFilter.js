@@ -13,7 +13,9 @@ export class ProductFilter extends React.Component {
             categories: ['Lipsticks', 'Face Make up', 'Eyes Make up'],
             productTypes: ['lip', 'cleansing', 'lipstick', 'palette', 'make up', 'shadow', 'countour', 'foundation', 'lash', 'lashes', 'mascara', 'liner', 'highlighter'],
             companies: ['urbandecay', 'nyxcosmetics', 'tartecosmetics', 'makeupgeek', 'colourpop', 'toofaced'],
-            selectedCheckboxes: new Set()
+            selectedCompanies: new Set(),
+            selectedProductTypes: new Set(),
+            selectedProductCategories: new Set(),
         }
 
         this.selectedCheckboxes = new Set();
@@ -23,28 +25,29 @@ export class ProductFilter extends React.Component {
         formSubmitEvent.preventDefault();
         
         this.props.getFilterSelection({page: 1, pageSize: 10, orderByColumn: 'Price', OrderDirection: 'desc', 
-        Companies: [...this.state.selectedCheckboxes]});
+        Companies: [...this.state.selectedCompanies], ProductCategories: [...this.state.selectedProductCategories], ProductTypes: [...this.state.selectedProductTypes]});
         // for (const checkbox of this.state.selectedCheckboxes) {
         //   console.log(checkbox, 'is selected.');
         // }
     }
 
-    toggleCheckbox = label => {
-         var clonedSet = new Set(this.state.selectedCheckboxes);
+    toggleCheckbox = (checkBoxName, label) => {
+
+         var clonedSet = new Set(this.state[checkBoxName]);
 
         if (clonedSet.has(label)) {
             clonedSet.delete(label);
             this.setState((state) => {
-                 state.selectedCheckboxes = clonedSet;
+                 state[checkBoxName] = clonedSet;
           });
         } else {
             clonedSet.add(label);
             this.setState((state) => {
-                state.selectedCheckboxes = clonedSet;
+                state[checkBoxName] = clonedSet;
              });
         }
       }
-
+      
     demoMethod(){
         this.props.getFilterSelection({page: 1, pageSize: 5, orderByColumn: 'UpdateDate', OrderDirection: 'desc'});
     }
@@ -57,25 +60,45 @@ export class ProductFilter extends React.Component {
         this.setState({[name]: value}, () => { this.validateField(name, value) });
     }
 
-    createCheckbox = label => (
+    createCheckbox = (label, checkBoxName) => (
         <CheckBox
         label={label}
-        handleCheckboxChange={this.toggleCheckbox}
+        handleCheckboxChange={this.toggleCheckbox.bind(this, checkBoxName)}
         key={label} />
     )
 
-    createCheckBoxList = () =>(
-        this.state.companies.map(this.createCheckbox)
+    createCompanyCheckBox = () =>(
+        this.state.companies.map(x => this.createCheckbox(x, "selectedCompanies"))
+    )
+
+    createProductTypeCheckBox = () =>(
+        this.state.productTypes.map(x => this.createCheckbox(x, "selectedProductTypes"))
+    )
+
+    createProductCategoryCheckBox = () =>(
+        this.state.categories.map(x => this.createCheckbox(x, "selectedProductCategories"))
     )
 
     render(){
         return (
         <div> 
         <form onSubmit={this.handleFormSubmit}>
-            {this.createCheckBoxList()}
          <FormGroup>
              <ControlLabel>
                  Company: 
+                 {this.createCompanyCheckBox()}
+             </ControlLabel>
+         </FormGroup>
+         <FormGroup>
+             <ControlLabel>
+                 Type: 
+                 {this.createProductTypeCheckBox()}
+             </ControlLabel>
+         </FormGroup>
+         <FormGroup>
+             <ControlLabel>
+                 Categories: 
+                 {this.createProductCategoryCheckBox()}
              </ControlLabel>
          </FormGroup>
          <button className="btn btn-default" type="submit">Save</button>

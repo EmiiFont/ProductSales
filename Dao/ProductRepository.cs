@@ -30,8 +30,7 @@ namespace MakeupSales.Dao
             FilterDefinition<Product> filter = FilterDefinition<Product>.Empty;
 
             if(companyEqual.Count > 0){
-              filter = Builders<Product>.Filter
-              .Where(e => companyEqual.Contains(e.Company));
+              filter = Builders<Product>.Filter.Where(e => companyEqual.Contains(e.Company));
             }
 
             if(productTypeEqual.Count > 0){
