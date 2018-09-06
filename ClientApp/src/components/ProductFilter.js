@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { FormGroup, ControlLabel, FormControl } from 'react-bootstrap';
 import { CheckBox } from './widgets/Checkbox';
+import { RadioButton } from './widgets/RadioButton';
 
 export class ProductFilter extends React.Component {
     displayName = ProductFilter.name;
@@ -13,6 +14,9 @@ export class ProductFilter extends React.Component {
             categories: ['Lipsticks', 'Face Make up', 'Eyes Make up'],
             productTypes: ['lip', 'cleansing', 'lipstick', 'palette', 'make up', 'shadow', 'countour', 'foundation', 'lash', 'lashes', 'mascara', 'liner', 'highlighter'],
             companies: ['urbandecay', 'nyxcosmetics', 'tartecosmetics', 'makeupgeek', 'colourpop', 'toofaced'],
+            sortColumnOptions: ['Recently Added', 'Price high to low', 'Price low to high' ],
+            sortColumn: 'UpdateDate',
+            sortDirection: 'desc',
             selectedCompanies: new Set(),
             selectedProductTypes: new Set(),
             selectedProductCategories: new Set(),
@@ -24,7 +28,7 @@ export class ProductFilter extends React.Component {
     handleFormSubmit = formSubmitEvent => {
         formSubmitEvent.preventDefault();
         
-        this.props.getFilterSelection({page: 1, pageSize: 10, orderByColumn: 'Price', OrderDirection: 'desc', 
+        this.props.getFilterSelection({page: 1, pageSize: 10, orderByColumn: this.state.sortColumn, OrderDirection: this.state.sortDirection, 
         Companies: [...this.state.selectedCompanies], ProductCategories: [...this.state.selectedProductCategories], ProductTypes: [...this.state.selectedProductTypes]});
         // for (const checkbox of this.state.selectedCheckboxes) {
         //   console.log(checkbox, 'is selected.');
@@ -47,6 +51,23 @@ export class ProductFilter extends React.Component {
              });
         }
       }
+    
+    toggleRadioButton = (checkBoxName, label) => {
+        switch(label){
+            case 'Recently Added':
+            this.setState({sortColumn: 'UpdateDate'});
+            this.setState({sortDirection: 'desc'});
+            break;
+            case 'Price high to low':
+            this.setState({sortColumn: 'Price'});
+            this.setState({sortDirection: 'desc'});
+            break;
+            case 'Price low to high':
+            this.setState({sortColumn: 'Price'});
+            this.setState({sortDirection: 'asc'});
+            break;
+        }
+     }
       
     demoMethod(){
         this.props.getFilterSelection({page: 1, pageSize: 5, orderByColumn: 'UpdateDate', OrderDirection: 'desc'});
@@ -65,6 +86,18 @@ export class ProductFilter extends React.Component {
         label={label}
         handleCheckboxChange={this.toggleCheckbox.bind(this, checkBoxName)}
         key={label} />
+    )
+
+    createRadioButton = (label, radioButtonName) => (
+        <RadioButton
+        name={radioButtonName}
+        label={label}
+        handleRadioButtonChange={this.toggleRadioButton.bind(this, radioButtonName)}
+        key={label} />
+    )
+
+    createSortRadiobutton = () =>(
+        this.state.sortColumnOptions.map(x => this.createRadioButton(x, "sort"))
     )
 
     createCompanyCheckBox = () =>(
@@ -99,6 +132,12 @@ export class ProductFilter extends React.Component {
              <ControlLabel>
                  Categories: 
                  {this.createProductCategoryCheckBox()}
+             </ControlLabel>
+         </FormGroup>
+         <FormGroup>
+             <ControlLabel>
+                 Sort: 
+                 {this.createSortRadiobutton()}
              </ControlLabel>
          </FormGroup>
          <button className="btn btn-default" type="submit">Save</button>
